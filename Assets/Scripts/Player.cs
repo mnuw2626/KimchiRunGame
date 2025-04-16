@@ -6,7 +6,8 @@ public class Player : MonoBehaviour
     public float JumpForce; // 점프 수치
 
     [Header("References")]
-    public Rigidbody2D PlayerRigidBody;
+    public Rigidbody2D PlayerRigidBody; //플레이어 몸
+    public Animator PlayerAnimator; // 플레이어 애니메이션
 
     private bool isGrounded = true; // 바닥에 있는지 여부
 
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
         {
             PlayerRigidBody.AddForceY(JumpForce, ForceMode2D.Impulse); // 점프 동작 실행 - JumpForce 만큼 수직(Y축)에 Impulse(순간적인 힘)타입의 Force(힘)을 줌
             isGrounded = false; // 바닥에 없음
+            PlayerAnimator.SetInteger("state", 1); // 점프 애니메이션 동작 실행
         }
 
     }
@@ -31,7 +33,12 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.name == "Platform") // 바닥에 충돌함
         {
+            if (!isGrounded)
+            {
+                PlayerAnimator.SetInteger("state", 2); // 착지 애니메이션 동작 실행
+            }
             isGrounded = true; // 바닥에 충돌하면 바닥에 있음
+           
         }
     }
 }
