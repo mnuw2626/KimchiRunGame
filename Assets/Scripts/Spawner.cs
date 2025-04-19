@@ -7,15 +7,19 @@ public class Spawner : MonoBehaviour
     public float maxSpawnDelay;//새로운 객체를 만들기 위해서 최대 몇 초 기다리는 지
 
     [Header("References")]
-    public GameObject[] gameObjects; // 건물들
+    public GameObject[] gameObjects; // 객체들
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void OnEnable()
     {
         Invoke("Spawn", Random.Range(minSpawnDelay, maxSpawnDelay));
     }
 
- 
+    void OnDisable()
+    {
+        CancelInvoke(); // 생성 비활성화
+    }
+
     void Spawn()
     {
         GameObject randomObject = gameObjects[Random.Range(0, gameObjects.Length)];
